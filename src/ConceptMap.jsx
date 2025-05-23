@@ -1,16 +1,24 @@
-import React from "react";
+import { useEffect, useState } from "react";
 
 export default function ConceptMap() {
-  return (
-    <div
-      style={{
-        border: "2px dashed #555",
-        padding: "1rem",
-        borderRadius: "1rem",
-      }}
-    >
-      <h3>🧠 Mappa Concettuale</h3>
-      <p>Questo è un Web Component React con Vite.</p>
-    </div>
-  );
+  const [topic, setTopic] = useState(null);
+
+  useEffect(() => {
+    const el = document.querySelector("concept-map");
+    if (el?.dataset?.topic) {
+      setTopic(el.dataset.topic);
+    }
+
+    const updateHandler = (e) => {
+      if (e.detail.topic) setTopic(e.detail.topic);
+    };
+
+    el?.addEventListener("concept-map:updated", updateHandler);
+
+    return () => {
+      el?.removeEventListener("concept-map:updated", updateHandler);
+    };
+  }, []);
+
+  return <div>Mappa concettuale per: {topic}</div>;
 }
