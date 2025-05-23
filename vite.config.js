@@ -10,14 +10,5 @@ export default defineConfig({
       fileName: () => 'concept-map.js',
       formats: ['es']
     },
-    rollupOptions: {
-      external: ['react', 'react-dom'],
-      output: {
-        globals: {
-          react: 'React',
-          'react-dom': 'ReactDOM'
-        }
-      }
-    }
   }
 });
