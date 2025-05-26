@@ -1,24 +1,66 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import ReactFlow, { Background, Controls } from "reactflow";
 
 export default function ConceptMap() {
-  const [timestamp, setTimestamp] = useState(null);
+  const [topic, setTopic] = useState(null);
+  const [showEditor, setShowEditor] = useState(false);
+
+  const defaultNodes = [
+    {
+      id: "1",
+      data: { label: "Concetto centrale" },
+      position: { x: 150, y: 100 },
+    },
+  ];
+  const defaultEdges = [];
+
+  const [nodes, setNodes] = useState(defaultNodes);
+  const [edges, setEdges] = useState(defaultEdges);
 
   useEffect(() => {
     const el = document.querySelector("concept-map");
-    if (el?.dataset?.timestamp) {
-      setTimestamp(el.dataset.timestamp);
-    }
 
-    const updateHandler = (e) => {
-      if (e.detail.timestamp) setTimestamp(e.detail.timestamp);
+    const hydrateHandler = (e) => {
+      const { topic, timestamp } = e.detail;
+      setTopic(topic || null);
+
+      if (topic) {
+        setNodes([
+          {
+            id: "1",
+            data: { label: topic },
+            position: { x: 150, y: 100 },
+          },
+        ]);
+        setEdges([]);
+      }
     };
 
-    el?.addEventListener("concept-map:updated", updateHandler);
+    const openEditorHandler = () => {
+      setShowEditor(true);
+    };
+
+    el?.addEventListener("concept-map:hydrate", hydrateHandler);
+    el?.addEventListener("concept-map:openEditor", openEditorHandler);
 
     return () => {
-      el?.removeEventListener("concept-map:updated", updateHandler);
+      el?.removeEventListener("concept-map:hydrate", hydrateHandler);
+      el?.removeEventListener("concept-map:openEditor", openEditorHandler);
     };
   }, []);
 
-  return <div>Timestamp della lezione: {timestamp}</div>;
+  return (
+    <div style={{ width: "100%", height: "100%" }}>
+      {showEditor ? (
+        <ReactFlow nodes={nodes} edges={edges} fitView>
+          <Background />
+          <Controls />
+        </ReactFlow>
+      ) : (
+        <p style={{ padding: "1rem", color: "#ccc", fontStyle: "italic" }}>
+          Clicca il bottone esterno per aprire l'editor.
+        </p>
+      )}
+    </div>
+  );
 }
