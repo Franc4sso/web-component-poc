@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 
 export default function ConceptMap() {
-  const [topic, setTopic] = useState(null);
+  const [timestamp, setTimestamp] = useState(null);
 
   useEffect(() => {
     const el = document.querySelector("concept-map");
-    if (el?.dataset?.topic) {
-      setTopic(el.dataset.topic);
+    if (el?.dataset?.timestamp) {
+      setTimestamp(el.dataset.timestamp);
     }
 
     const updateHandler = (e) => {
-      if (e.detail.topic) setTopic(e.detail.topic);
+      if (e.detail.timestamp) setTimestamp(e.detail.timestamp);
     };
 
     el?.addEventListener("concept-map:updated", updateHandler);
@@ -20,5 +20,5 @@ export default function ConceptMap() {
     };
   }, []);
 
-  return <div>Mappa concettuale per: {topic}</div>;
+  return <div>Timestamp della lezione: {timestamp}</div>;
 }

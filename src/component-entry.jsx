@@ -12,24 +12,20 @@ class ConceptMapElement extends HTMLElement {
   }
 
   disconnectedCallback() {
-    // Cleanup
     this.removeEventListener("concept-map:hydrate", this.handleHydration);
   }
 
   handleHydration = (event) => {
     const payload = event.detail;
 
-    // Best practice: validazione base
     if (typeof payload !== "object" || payload === null) return;
 
-    // Setta data attributes
     Object.keys(payload).forEach((key) => {
       this.dataset[key] = payload[key];
     });
 
     console.debug("ConceptMap: received payload", payload);
 
-    // Facoltativo: notifica il React component
     this.dispatchEvent(
       new CustomEvent("concept-map:updated", { detail: payload })
     );
