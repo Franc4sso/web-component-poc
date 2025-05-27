@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import ConceptMap from "./ConceptMap";
-import 'reactflow/dist/style.css';
 
 class ConceptMapElement extends HTMLElement {
   connectedCallback() {
@@ -11,7 +10,8 @@ class ConceptMapElement extends HTMLElement {
     this.appendChild(mountPoint);
 
     const root = ReactDOM.createRoot(mountPoint);
-    root.render(<ConceptMap />);
+    root.render(
+    <ConceptMap />);
   }
 }
 
