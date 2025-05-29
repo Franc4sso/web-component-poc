@@ -340,6 +340,10 @@ const ConceptMap = () => {
     }
   }, [showEditor, nodes, links]);
 
+  if(!showEditor) {
+    return null;
+  }
+
   return (
     <div
       ref={wrapperRef}
