@@ -32,7 +32,7 @@ const ConceptMap = () => {
   };
 
   useEffect(() => {
-    const el = document.querySelector("concept-map");
+    const el = document.getElementById("conceptMap");
     const openEditorHandler = () => setShowEditor(true);
     el?.addEventListener("concept-map:openEditor", openEditorHandler);
     return () =>
